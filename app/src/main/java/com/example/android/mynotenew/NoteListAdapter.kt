@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mynotenew.NoteListAdapter.NoteViewHolder
-import com.example.android.roomwordssample.R
+import ivan.mitroshenko.roomnotessample.R
 
 class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR) {
 

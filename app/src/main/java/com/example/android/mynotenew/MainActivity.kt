@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.roomwordssample.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ivan.mitroshenko.roomnotessample.R
 
 class MainActivity : AppCompatActivity() {
 
