@@ -18,16 +18,16 @@ class NewNotesActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_word)
-        val editWordView = findViewById<EditText>(R.id.edit_word)
+        val editNoteView = findViewById<EditText>(R.id.edit_word)
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
             val replyIntent = Intent()
-            if (TextUtils.isEmpty(editWordView.text)) {
+            if (TextUtils.isEmpty(editNoteView.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
-                val word = editWordView.text.toString()
-                replyIntent.putExtra(EXTRA_REPLY, word)
+                val note = editNoteView.text.toString()
+                replyIntent.putExtra(EXTRA_REPLY, note)
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()
@@ -35,6 +35,6 @@ class NewNotesActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+        const val EXTRA_REPLY = "MyNotesRoom.REPLY"
     }
 }

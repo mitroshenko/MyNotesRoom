@@ -7,10 +7,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ivan.mitroshenko.roomnotessample.R
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,11 +37,11 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, newNoteActivityRequestCode)
         }
 
-        
+
         // Добавьте наблюдателя к текущим данным, возвращаемым с помощью get Alphabetized Words.
         //        // Метод OnChanged() срабатывает, когда наблюдаемые данные изменяются, а действие
         //// находится на переднем плане.
-        noteViewModel.allWords.observe(owner = this) { notes ->
+        noteViewModel.allNotes.observe(owner = this) { notes ->
             // Uобновите кэшированную копию слов в адаптере.
             notes.let { adapter.submitList(it) }
         }
@@ -58,6 +61,37 @@ class MainActivity : AppCompatActivity() {
                 R.string.empty_not_saved,
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    val simpleCallback = object : ItemTouchHelper.SimpleCallback(
+        0,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            lateinit var noteList: ArrayList<NoteEntity>
+            lateinit var noteAdapter: NoteListAdapter
+            val note = noteList[position]
+            when (direction) {
+                ItemTouchHelper.RIGHT -> {
+                    noteViewModel.delete(this@MainActivity, note)
+                    noteAdapter.notifyDataSetChanged()
+                }
+
+                ItemTouchHelper.LEFT -> {
+                    noteViewModel.delete(this@MainActivity, note)
+                    noteAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 }

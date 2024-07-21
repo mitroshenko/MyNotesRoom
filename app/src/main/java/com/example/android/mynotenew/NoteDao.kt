@@ -17,6 +17,7 @@
 package com.example.android.mynotenew
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -37,10 +38,13 @@ interface NoteDao {
     // Поток всегда содержит/кэширует последнюю версию данных. Уведомляет своих наблюдателей
     //об изменении // данных.
     @Query("SELECT * FROM my_table")
-    fun getAlphabetizedWords(): Flow<List<NoteEntity>>
+    fun getAlphabetizedNotes(): Flow<List<NoteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(noteEntity: NoteEntity)
+    suspend fun insert(note: NoteEntity)
+
+    @Delete
+    suspend fun delete(note:NoteEntity)
 
     @Query("DELETE FROM my_table")
     suspend fun deleteAll()

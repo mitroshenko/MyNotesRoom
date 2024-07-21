@@ -16,6 +16,7 @@
 
 package com.example.android.mynotenew
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -30,11 +31,11 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    // Using LiveData and caching what allWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
-    // - Repository is completely separated from the UI through the ViewModel.
-    val allWords: LiveData<List<NoteEntity>> = repository.allWords.asLiveData()
+    // Использование оперативных данных и кэширование того, что возвращает all Words, имеет ряд преимуществ:
+    //    // - Мы можем поместить наблюдателя в данные (вместо опроса изменений) и обновлять пользовательский интерфейс только
+    //тогда, когда данные действительно изменяются.
+    //    // - Репозиторий полностью отделен от пользовательского интерфейса с помощью ViewModel.
+    val allNotes: LiveData<List<NoteEntity>> = repository.allWords.asLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
@@ -52,4 +53,8 @@ class NoteViewModelFactory(private val repository: NoteRepository) : ViewModelPr
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+}
+fun delete(context: Context, note: NoteEntity)
+{
+    NoteRepository.delete(context, note)
 }

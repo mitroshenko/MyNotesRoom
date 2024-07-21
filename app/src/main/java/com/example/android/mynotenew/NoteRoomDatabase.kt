@@ -35,6 +35,10 @@ abstract class NoteRoomDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object {
+
+
+        private const val DATABASE_NAME="NoteDatabase"
+
         @Volatile
         private var INSTANCE: NoteRoomDatabase? = null
 
@@ -48,12 +52,12 @@ abstract class NoteRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NoteRoomDatabase::class.java,
-                    "word_database"
+                    "note_database"
                 )
                     // Стирает и перестраивает вместо переноса, если объект переноса отсутствует.
                     // Перенос не является частью этой кодовой таблицы.
                     .fallbackToDestructiveMigration()
-                    .addCallback(WordDatabaseCallback(scope))
+                    .addCallback(NoteDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 // return instance
@@ -61,7 +65,7 @@ abstract class NoteRoomDatabase : RoomDatabase() {
             }
         }
 
-        private class WordDatabaseCallback(
+        private class NoteDatabaseCallback(
             private val scope: CoroutineScope
         ) : RoomDatabase.Callback() {
             /**
@@ -86,12 +90,14 @@ abstract class NoteRoomDatabase : RoomDatabase() {
         suspend fun populateDatabase(noteDao: NoteDao) {
             // Каждый раз запускайте приложение с чистой базой данных.
             //            // Не требуется, если вы заполняете ее только при создании.
-            noteDao.deleteAll()
+            noteDao.deleteAll()}
+    }
+}
 
 //            var title = NoteEntity("Hello")
 //            noteDao.insert(title)
 //            title = NoteEntity("World!")
 //            noteDao.insert(title)
-        }
-    }
-}
+//        }
+//    }
+//}
