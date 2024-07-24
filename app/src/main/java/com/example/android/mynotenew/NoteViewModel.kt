@@ -35,13 +35,16 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     //    // - Мы можем поместить наблюдателя в данные (вместо опроса изменений) и обновлять пользовательский интерфейс только
     //тогда, когда данные действительно изменяются.
     //    // - Репозиторий полностью отделен от пользовательского интерфейса с помощью ViewModel.
-    val allNotes: LiveData<List<NoteEntity>> = repository.allWords.asLiveData()
+    val allNotes: LiveData<List<NoteEntity>> = repository.allNotes.asLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(note: NoteEntity) = viewModelScope.launch {
         repository.insert(note)
+    }
+    fun delete(note: NoteEntity) = viewModelScope.launch {
+        repository.delete(note)
     }
 }
 
@@ -54,7 +57,4 @@ class NoteViewModelFactory(private val repository: NoteRepository) : ViewModelPr
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-fun delete(context: Context, note: NoteEntity)
-{
-    NoteRepository.delete(context, note)
-}
+

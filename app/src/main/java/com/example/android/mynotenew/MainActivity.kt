@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ivan.mitroshenko.roomnotessample.R
-import java.util.ArrayList
+import kotlinx.coroutines.flow.Flow
 
-class MainActivity : AppCompatActivity() {
 
+
+class MainActivity : AppCompatActivity(){
+//    private lateinit var noteList: ArrayList<NoteEntity>
+
+    //    private lateinit var noteAdapter: NoteListAdapter
     private val newNoteActivityRequestCode = 1
     private val noteViewModel: NoteViewModel by viewModels {
         NoteViewModelFactory((application as NotesApplication).repository)
@@ -31,11 +35,16 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
             startActivityForResult(intent, newNoteActivityRequestCode)
+
+
+
         }
+
 
 
         // Добавьте наблюдателя к текущим данным, возвращаемым с помощью get Alphabetized Words.
@@ -45,7 +54,12 @@ class MainActivity : AppCompatActivity() {
             // Uобновите кэшированную копию слов в адаптере.
             notes.let { adapter.submitList(it) }
         }
+        val itemTouchHelper=ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -63,11 +77,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
-
-    val simpleCallback = object : ItemTouchHelper.SimpleCallback(
-        0,
-        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-    ) {
+    val simpleCallback= object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -77,21 +87,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val position = viewHolder.adapterPosition
-            lateinit var noteList: ArrayList<NoteEntity>
             lateinit var noteAdapter: NoteListAdapter
-            val note = noteList[position]
-            when (direction) {
-                ItemTouchHelper.RIGHT -> {
-                    noteViewModel.delete(this@MainActivity, note)
+            lateinit var noteList: ArrayList<NoteEntity>
+            val position=viewHolder.adapterPosition
+            val note=noteList[position]
+            when(direction)
+            {
+                ItemTouchHelper.RIGHT->{
+                    noteViewModel.delete(note)
                     noteAdapter.notifyDataSetChanged()
                 }
-
-                ItemTouchHelper.LEFT -> {
-                    noteViewModel.delete(this@MainActivity, note)
+                ItemTouchHelper.LEFT->{
+                    noteViewModel.delete(note)
                     noteAdapter.notifyDataSetChanged()
                 }
             }
         }
+
     }
+
+
 }
+
