@@ -3,8 +3,10 @@ package com.example.android.mynotenew
 import android.content.Context
 import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -25,10 +27,21 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.insert(note)
     }
 
-    suspend fun delete(note:NoteEntity){
+    suspend fun delete(note: NoteEntity) {
         noteDao.delete(note)
-        }
     }
+
+    suspend fun update(note: NoteEntity) {
+        noteDao.update(note)
+    }
+
+    private var noteDatabase: NoteRoomDatabase? = null
+
+    private fun initialiseDB(context: Context): NoteRoomDatabase? {
+        val applicationScope = CoroutineScope(SupervisorJob())
+        return NoteRoomDatabase.getDatabase(context, applicationScope)
+    }
+}
 
 
 

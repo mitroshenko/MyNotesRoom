@@ -19,4 +19,5 @@ limitations under the License. -->
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Note not saved because it is empty.</string>
     <string name="add_word">Add note</string>
+    <string name="empty">Пусто</string>
 </resources>

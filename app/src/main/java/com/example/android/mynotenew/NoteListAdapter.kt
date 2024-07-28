@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mynotenew.NoteListAdapter.NoteViewHolder
 import ivan.mitroshenko.roomnotessample.R
 import kotlinx.coroutines.flow.Flow
+import java.util.logging.Filter
 
 class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR) {
-    var noteList = ArrayList<NoteEntity>()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder.create(parent)
@@ -26,7 +27,7 @@ class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR
 
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val noteItemView: TextView = itemView.findViewById(R.id.textView)
+        private val noteItemView: TextView = itemView.findViewById(R.id.tvTitle)
 
         fun bind(text: String?) {
             noteItemView.text = text
@@ -51,6 +52,14 @@ class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR
                 return oldItem.title == newItem.title
             }
         }
+    }
+    fun filterList(filterlist: ArrayList<NoteEntity>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        val notelist = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
     }
 
 }
