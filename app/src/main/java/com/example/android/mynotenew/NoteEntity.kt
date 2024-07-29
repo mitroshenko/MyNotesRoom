@@ -18,6 +18,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "my_table")
 data class NoteEntity(
     @PrimaryKey
+//    @ColumnInfo(name = "id")
+//    val id: Int,
     @ColumnInfo(name = "title")
 val title: String)
 

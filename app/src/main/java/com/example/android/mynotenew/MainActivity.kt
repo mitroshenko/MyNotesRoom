@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         NoteViewModelFactory((application as NotesApplication).repository)
     }
     private val adapter: NoteListAdapter by lazy { NoteListAdapter() }
-    private val noteList: ArrayList<NoteEntity> by lazy { ArrayList() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = NoteListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -153,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         val filteredlist: ArrayList<NoteEntity> = ArrayList()
 
         // running a for loop to compare elements.
-        for (item in noteList) {
+        for (item in noteViewModel.allNotes.value!!) {
             // checking if the entered string matched with any item of our recycler view.
             if (item.title.toLowerCase().contains(text.toLowerCase())) {
                 // if the item is matched we are
@@ -164,11 +163,12 @@ class MainActivity : AppCompatActivity() {
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
+
+            adapter.submitList(emptyList())
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            adapter.filterList(filteredlist)
+            adapter.submitList(filteredlist)
         }
     }
 

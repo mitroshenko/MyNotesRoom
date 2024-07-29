@@ -53,13 +53,6 @@ class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR
             }
         }
     }
-    fun filterList(filterlist: ArrayList<NoteEntity>) {
-        // below line is to add our filtered
-        // list in our course array list.
-        val notelist = filterlist
-        // below line is to notify our adapter
-        // as change in recycler view data.
-        notifyDataSetChanged()
-    }
+
 
 }
