@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this@MainActivity, UpdateActivity::class.java)
             intent.putExtra("mynote", title)
-            startActivity(intent)
+            startActivityForResult(intent, updateNoteActivityRequestCode)
         }
     }
 

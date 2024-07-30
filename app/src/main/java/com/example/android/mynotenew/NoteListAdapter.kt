@@ -29,7 +29,7 @@ class NoteListAdapter (private val onClick: (Int) -> Unit):
         private val noteItemView: TextView = itemView.findViewById(R.id.tvTitle)
 
         fun bind(noteEntity: NoteEntity) {
-//            noteItemView.setOnClickListener { onClick(noteEntity.id) }
+            noteItemView.setOnClickListener { onClick(noteEntity.id) }
             noteItemView.text = noteEntity.title
         }
 
