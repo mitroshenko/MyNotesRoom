@@ -32,10 +32,18 @@ class MainActivity : AppCompatActivity() {
 
 
     private val newNoteActivityRequestCode = 1
+    private val updateNoteActivityRequestCode = 2
     private val noteViewModel: NoteViewModel by viewModels {
         NoteViewModelFactory((application as NotesApplication).repository)
     }
-    private val adapter: NoteListAdapter by lazy { NoteListAdapter() }
+    private val adapter: NoteListAdapter by lazy {
+        NoteListAdapter { title ->
+
+            val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+            intent.putExtra("mynote", title)
+            startActivity(intent)
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,18 +84,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
+        when (requestCode) {
 
-        if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
-                val title = NoteEntity(reply)
-                noteViewModel.insert(title)
+            1 -> if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
+                    val title = NoteEntity(reply)
+                    noteViewModel.insert(title)
+                }
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    R.string.empty_not_saved,
+                    Toast.LENGTH_LONG
+                ).show()
             }
-        } else {
+            2 -> if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
+                    val title = NoteEntity(reply)
+                    noteViewModel.update(title)
+                }
+            } else {
             Toast.makeText(
                 applicationContext,
                 R.string.empty_not_saved,
                 Toast.LENGTH_LONG
             ).show()
+        }
         }
     }
 

@@ -8,5 +8,10 @@ class UpdateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
+
+        val myNote = intent.getStringExtra("mynote")
+
     }
+
+
 }

@@ -43,12 +43,15 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     fun insert(note: NoteEntity) = viewModelScope.launch {
         repository.insert(note)
     }
+
     fun delete(position: Int) = viewModelScope.launch {
         val note = allNotes.value?.get(position)
-        if (note!==null){
+        if (note !== null) {
             repository.delete(note)
         }
-
+    }
+    fun update(note: NoteEntity) = viewModelScope.launch {
+        repository.update(note)
     }
 }
 

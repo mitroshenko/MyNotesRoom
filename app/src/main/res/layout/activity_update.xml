@@ -7,4 +7,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.mynotenew.UpdateActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <EditText
+      android:id="@+id/up_edTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="60dp"
+      android:ems="10"
+      android:inputType="text"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/up_btnSave"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:text="Save"
+      app:layout_constraintEnd_toEndOf="@+id/up_edTitle"
+      app:layout_constraintStart_toStartOf="@+id/up_edTitle"
+      app:layout_constraintTop_toBottomOf="@+id/up_edTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,41 +9,41 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mynotenew.NoteListAdapter.NoteViewHolder
 import ivan.mitroshenko.roomnotessample.R
-import kotlinx.coroutines.flow.Flow
-import java.util.logging.Filter
 
-class NoteListAdapter : ListAdapter<NoteEntity, NoteViewHolder>(WORDS_COMPARATOR) {
+class NoteListAdapter (private val onClick: (Int) -> Unit):
+    ListAdapter<NoteEntity, NoteViewHolder>(NOTES_COMPARATOR) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder.create(parent)
+        return NoteViewHolder.create(parent, onClick)
     }
 
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.title)
+        holder.bind(current)
     }
 
 
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View, val onClick: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val noteItemView: TextView = itemView.findViewById(R.id.tvTitle)
 
-        fun bind(text: String?) {
-            noteItemView.text = text
+        fun bind(noteEntity: NoteEntity) {
+//            noteItemView.setOnClickListener { onClick(noteEntity.id) }
+            noteItemView.text = noteEntity.title
         }
 
         companion object {
-            fun create(parent: ViewGroup): NoteViewHolder {
+            fun create(parent: ViewGroup, onClick: (Int) -> Unit): NoteViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
                     .inflate(R.layout.recyclerview_item, parent, false)
-                return NoteViewHolder(view)
+                return NoteViewHolder(view, onClick)
             }
         }
     }
 
     companion object {
-        private val WORDS_COMPARATOR = object : DiffUtil.ItemCallback<NoteEntity>() {
+        private val NOTES_COMPARATOR = object : DiffUtil.ItemCallback<NoteEntity>() {
             override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity): Boolean {
                 return oldItem === newItem
             }

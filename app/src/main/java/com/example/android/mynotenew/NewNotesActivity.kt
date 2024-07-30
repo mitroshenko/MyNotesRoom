@@ -14,6 +14,8 @@ import ivan.mitroshenko.roomnotessample.R
  */
 
 class NewNotesActivity : AppCompatActivity() {
+    private val newNoteActivityRequestCode = 1
+    private val updateNoteActivityRequestCode = 2
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,7 @@ class NewNotesActivity : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
+            val mynote = intent.getStringExtra("mynote")
             val replyIntent = Intent()
             if (TextUtils.isEmpty(editNoteView.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
@@ -32,6 +35,8 @@ class NewNotesActivity : AppCompatActivity() {
             }
             finish()
         }
+
+
     }
 
     companion object {
