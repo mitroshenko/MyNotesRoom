@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.mynotenew.NoteListAdapter.NoteViewHolder
 import ivan.mitroshenko.roomnotessample.R
 
-class NoteListAdapter (private val onClick: (Int) -> Unit):
+class NoteListAdapter (private val onClick: (Int, String) -> Unit):
     ListAdapter<NoteEntity, NoteViewHolder>(NOTES_COMPARATOR) {
 
 
@@ -25,16 +25,16 @@ class NoteListAdapter (private val onClick: (Int) -> Unit):
     }
 
 
-    class NoteViewHolder(itemView: View, val onClick: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View, val onClick: (Int, String) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val noteItemView: TextView = itemView.findViewById(R.id.tvTitle)
 
         fun bind(noteEntity: NoteEntity) {
-            noteItemView.setOnClickListener { onClick(noteEntity.id) }
+            noteItemView.setOnClickListener { onClick(noteEntity.id, noteEntity.title) }
             noteItemView.text = noteEntity.title
         }
 
         companion object {
-            fun create(parent: ViewGroup, onClick: (Int) -> Unit): NoteViewHolder {
+            fun create(parent: ViewGroup, onClick: (Int, String) -> Unit): NoteViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
                     .inflate(R.layout.recyclerview_item, parent, false)
                 return NoteViewHolder(view, onClick)

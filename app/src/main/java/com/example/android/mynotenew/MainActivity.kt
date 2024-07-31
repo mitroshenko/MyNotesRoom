@@ -3,6 +3,7 @@ package com.example.android.mynotenew
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -25,11 +26,14 @@ class MainActivity : AppCompatActivity() {
     private val noteViewModel: NoteViewModel by viewModels {
         NoteViewModelFactory((application as NotesApplication).repository)
     }
+    private val newnoteViewModel: NewNoteViewModel by viewModels {
+        NewNoteViewModelFactory((application as NotesApplication).repository)
+    }
     private val adapter: NoteListAdapter by lazy {
-        NoteListAdapter { id ->
+        NoteListAdapter { id, title ->
 
             val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
-            intent.putExtra("mynote", title)
+            intent.putExtra("mynote", id)
             startActivityForResult(intent, updateNoteActivityRequestCode)
         }
     }
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             2 -> if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
                 intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
                     val title = NoteEntity(reply)
-                    noteViewModel.update(title)
+                    newnoteViewModel.update(title)
                 }
             } else {
             Toast.makeText(
