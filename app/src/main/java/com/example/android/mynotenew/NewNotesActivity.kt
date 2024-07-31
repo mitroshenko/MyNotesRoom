@@ -19,6 +19,7 @@ class NewNotesActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_word)
+
         val editNoteView = findViewById<EditText>(R.id.edit_word)
 
         val button = findViewById<Button>(R.id.button_save)
