@@ -14,8 +14,7 @@ import ivan.mitroshenko.roomnotessample.R
  */
 
 class NewNotesActivity : AppCompatActivity() {
-    private val newNoteActivityRequestCode = 1
-    private val updateNoteActivityRequestCode = 2
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -37,9 +37,9 @@ class MainActivity : AppCompatActivity() {
         NoteViewModelFactory((application as NotesApplication).repository)
     }
     private val adapter: NoteListAdapter by lazy {
-        NoteListAdapter { title ->
+        NoteListAdapter { id ->
 
-            val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+            val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
             intent.putExtra("mynote", title)
             startActivityForResult(intent, updateNoteActivityRequestCode)
         }
