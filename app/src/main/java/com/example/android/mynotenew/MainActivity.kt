@@ -29,11 +29,12 @@ class MainActivity : AppCompatActivity() {
     private val newnoteViewModel: NewNoteViewModel by viewModels {
         NewNoteViewModelFactory((application as NotesApplication).repository)
     }
+
     private val adapter: NoteListAdapter by lazy {
-        NoteListAdapter { id, title ->
+        NoteListAdapter { note ->
 
             val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
-            intent.putExtra("mynote", id)
+            intent.putExtra("mynote", note)
             startActivityForResult(intent, updateNoteActivityRequestCode)
         }
     }
@@ -69,42 +70,39 @@ class MainActivity : AppCompatActivity() {
             // Uобновите кэшированную копию слов в адаптере.
             notes.let { adapter.submitList(it) }
         }
-
-
-
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-        when (requestCode) {
-
-            1 -> if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
-                    val title = NoteEntity(reply)
-                    noteViewModel.insert(title)
-                }
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            2 -> if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
-                    val title = NoteEntity(reply)
-                    newnoteViewModel.update(title)
-                }
-            } else {
-            Toast.makeText(
-                applicationContext,
-                R.string.empty_not_saved,
-                Toast.LENGTH_LONG
-            ).show()
-        }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, intentData)
+//        when (requestCode) {
+//
+//            1 -> if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+//                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
+//                    val title = NoteEntity(reply)
+//                    newnoteViewModel.insert(title)
+//                }
+//            } else {
+//                Toast.makeText(
+//                    applicationContext,
+//                    R.string.empty_not_saved,
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//            2 -> if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+//                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
+//                    val title = NoteEntity(reply)
+//                    newnoteViewModel.update(title)
+//                }
+//            } else {
+//                Toast.makeText(
+//                    applicationContext,
+//                    R.string.empty_not_saved,
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//        }
+//    }
 
     val simpleCallback =
         object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
