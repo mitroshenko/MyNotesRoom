@@ -1,12 +1,10 @@
 package com.example.android.mynotenew
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
@@ -16,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ivan.mitroshenko.roomnotessample.R
 import androidx.appcompat.widget.SearchView
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val adapter: NoteListAdapter by lazy {
         NoteListAdapter { note ->
 
-            val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
+            val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
             intent.putExtra("mynote", note)
             startActivityForResult(intent, updateNoteActivityRequestCode)
         }
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -54,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewNotesActivity::class.java)
+            val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
             startActivityForResult(intent, newNoteActivityRequestCode)
 
 
@@ -71,38 +74,6 @@ class MainActivity : AppCompatActivity() {
             notes.let { adapter.submitList(it) }
         }
     }
-
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, intentData)
-//        when (requestCode) {
-//
-//            1 -> if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-//                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
-//                    val title = NoteEntity(reply)
-//                    newnoteViewModel.insert(title)
-//                }
-//            } else {
-//                Toast.makeText(
-//                    applicationContext,
-//                    R.string.empty_not_saved,
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//            2 -> if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-//                intentData?.getStringExtra(NewNotesActivity.EXTRA_REPLY)?.let { reply ->
-//                    val title = NoteEntity(reply)
-//                    newnoteViewModel.update(title)
-//                }
-//            } else {
-//                Toast.makeText(
-//                    applicationContext,
-//                    R.string.empty_not_saved,
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//        }
-//    }
 
     val simpleCallback =
         object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -128,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // below line is to get our inflater
@@ -184,7 +154,6 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(filteredlist)
         }
     }
-
 
 }
 

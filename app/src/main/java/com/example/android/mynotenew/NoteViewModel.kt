@@ -37,12 +37,6 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     //    // - Репозиторий полностью отделен от пользовательского интерфейса с помощью ViewModel.
     val allNotes: LiveData<List<NoteEntity>> = repository.allNotes.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
-    fun insert(note: NoteEntity) = viewModelScope.launch {
-        repository.insert(note)
-    }
 
     fun delete(position: Int) = viewModelScope.launch {
         val note = allNotes.value?.get(position)

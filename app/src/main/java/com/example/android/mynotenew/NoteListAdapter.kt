@@ -27,10 +27,12 @@ class NoteListAdapter (private val onClick: (NoteEntity) -> Unit):
 
     class NoteViewHolder(itemView: View, val onClick: (NoteEntity) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val noteItemView: TextView = itemView.findViewById(R.id.tvTitle)
+        private val timeItemView: TextView = itemView.findViewById(R.id.tvTime)
 
         fun bind(noteEntity: NoteEntity) {
             noteItemView.setOnClickListener { onClick(noteEntity) }
             noteItemView.text = noteEntity.title
+            timeItemView.text = noteEntity.time_date
         }
 
         companion object {

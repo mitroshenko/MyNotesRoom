@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.android.mynotenew.UpdateActivity"
+            android:name="com.example.android.mynotenew.NewNoteActivity"
             android:exported="false" />
         <activity
             android:name="com.example.android.mynotenew.MainActivity"
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.android.mynotenew.NewNotesActivity" />
+        <activity android:name="com.example.android.mynotenew.NewNoteActivitydelete" />
     </application>
 
 </manifest>
