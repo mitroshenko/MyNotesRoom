@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample
+package com.example.android.mynotenew
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -20,9 +20,6 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.android.mynotenew.NoteDao
-import com.example.android.mynotenew.NoteEntity
-import com.example.android.mynotenew.NoteRoomDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After

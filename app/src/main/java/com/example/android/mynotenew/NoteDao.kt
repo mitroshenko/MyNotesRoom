@@ -16,7 +16,6 @@
 
 package com.example.android.mynotenew
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -25,20 +24,8 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Волшебство этого файла заключается в том, что вы сопоставляете вызов метода с SQL-запросом.
- *  *
- *  * Когда вы используете сложные типы данных, такие как Дата, вам также необходимо указать преобразователи типов.
- *  * Чтобы этот пример был простым, не используются типы, для которых требуются преобразователи типов.
- *  * Смотрите документацию по адресу
- * https://developer.android.com/topic/libraries/architecture/room.html#type-converters
- */
-
 @Dao
 interface NoteDao {
-
-    // Поток всегда содержит/кэширует последнюю версию данных. Уведомляет своих наблюдателей
-    //об изменении // данных.
     @Query("SELECT * FROM my_table")
     fun getAlphabetizedNotes(): Flow<List<NoteEntity>>
 
@@ -46,13 +33,11 @@ interface NoteDao {
     suspend fun insert(note: NoteEntity)
 
     @Delete
-    suspend fun delete(note:NoteEntity)
+    suspend fun delete(note: NoteEntity)
 
     @Query("DELETE FROM my_table")
     suspend fun deleteAll()
 
     @Update
-    suspend fun update (note:NoteEntity)
-
-
+    suspend fun update(note: NoteEntity)
 }

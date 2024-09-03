@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 31
     defaultConfig {
-        applicationId "com.example.android.roomwordssample"
+        applicationId "com.example.android.mynotenew"
         minSdkVersion 20
         targetSdkVersion 31
         versionCode 1
@@ -39,9 +39,6 @@ repositories {
 dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.activity:activity-ktx:$rootProject.activityVersion"
-
-    // Зависимости для работы с архитектурными компонентами
-    //    // Вероятно, вам придется обновить номера версий в build.gradle (Project)
 
     // Room components
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"

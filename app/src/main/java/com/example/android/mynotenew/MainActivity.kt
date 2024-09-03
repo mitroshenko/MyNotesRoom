@@ -2,7 +2,6 @@ package com.example.android.mynotenew
 
 import android.content.Intent
 import android.os.Bundle
-
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -14,16 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ivan.mitroshenko.roomnotessample.R
 import androidx.appcompat.widget.SearchView
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
 
-
     private val newNoteActivityRequestCode = 1
     private val updateNoteActivityRequestCode = 2
+
     private val noteViewModel: NoteViewModel by viewModels {
         NoteViewModelFactory((application as NotesApplication).repository)
     }
@@ -33,44 +29,28 @@ class MainActivity : AppCompatActivity() {
 
     private val adapter: NoteListAdapter by lazy {
         NoteListAdapter { note ->
-
             val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
             intent.putExtra("mynote", note)
             startActivityForResult(intent, updateNoteActivityRequestCode)
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
-
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
             startActivityForResult(intent, newNoteActivityRequestCode)
-
-
         }
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
-
-        // Добавьте наблюдателя к текущим данным, возвращаемым с помощью get Alphabetized Words.
-        //        // Метод OnChanged() срабатывает, когда наблюдаемые данные изменяются, а действие
-        //// находится на переднем плане.
         noteViewModel.allNotes.observe(owner = this) { notes ->
-            // Uобновите кэшированную копию слов в адаптере.
             notes.let { adapter.submitList(it) }
         }
     }
@@ -97,23 +77,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // below line is to get our inflater
         val inflater = menuInflater
-
-        // inside inflater we are inflating our menu file.
         inflater.inflate(R.menu.search_menu, menu)
-
-        // below line is to get our menu item.
         val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
-
-        // getting search view of our item.
         val searchView: SearchView = searchItem.getActionView() as SearchView
-
-        // below line is to call set on query text listener method.
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -121,8 +91,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-                // inside on query text change method we are
-                // calling a method to filter our recycler view.
                 filter(msg)
                 return false
             }
@@ -131,30 +99,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun filter(text: String) {
-        // creating a new array list to filter our data.
         val filteredlist: ArrayList<NoteEntity> = ArrayList()
-
-        // running a for loop to compare elements.
         for (item in noteViewModel.allNotes.value!!) {
-            // checking if the entered string matched with any item of our recycler view.
             if (item.title.toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
                 filteredlist.add(item)
             }
         }
         if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
-
             adapter.submitList(emptyList())
         } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
             adapter.submitList(filteredlist)
         }
     }
-
 }
 
 

@@ -6,14 +6,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 
-
 class NewNoteViewModel(private val repository: NoteRepository) : ViewModel() {
-
-
     fun update(note: NoteEntity, onFinishCallback: () -> Unit) = viewModelScope.launch {
         repository.update(note)
         onFinishCallback()
     }
+
     fun insert(note: NoteEntity, onFinishCallback: () -> Unit) = viewModelScope.launch {
         repository.insert(note)
         onFinishCallback()
